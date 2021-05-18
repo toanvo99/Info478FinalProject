@@ -15,16 +15,48 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# Set up
+library(dplyr)
+library(knitr)
+library(ggplot2)
+library(tidyr)
+# Load data
+hearing_data <- read.csv("Paper1_WebData_Final.csv")
 ```
 
-## Including Plots
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+head(hearing_data)
+hearing_data2 = na.omit(hearing_data)
+l500k <- hearing_data$L500k
 
-You can also embed plots, for example:
+r500k <- hearing_data$R500k
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+clean_l500k <- na.omit(l500k)
+clean_r500k <- na.omit(r500k)
+mean500 <- mean(x = sort(x = clean_l500k)[-c(1, length(x = clean_l500k))])
+median500 <- median(clean_l500k)
+max500 <- max(clean_l500k)
+min500 <- min(clean_l500k)
+sd500 <- sd(clean_l500k)
+```
+- Mean of Left Ear hearing threshold value for 500 hz frequency is `r mean500`
+- Median of Left Ear hearing threshold value for 500 hz frequency is `r median500`
+- Max of Left Ear hearing threshold value for 500 hz frequency is `r max500`
+- Min of Left Ear hearing threshold value for 500 hz frequency is `r min500`
+- Standard Deviation of Left Ear hearing threshold value for 500 hz frequency is `r sd500`
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# Graph showing the distribution of Left ear hearing threshold value for 500 Hz frequency Each interval of 5 represents the hearing level in decibals (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 500 hz frequency.  
+
+p <- ggplot(hearing_data2, aes(x=L500k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5))
+p
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# Find top 10 jobs to show the means, then you can come up with a relationship graph
+industry <- hearing_data %>% group_by(NAICS_descr)
+industry %>% summarise(
+  l500k = mean(L500k)
+)
+```
