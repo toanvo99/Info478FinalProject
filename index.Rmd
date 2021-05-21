@@ -1,6 +1,6 @@
 ---
-title: "index.rmd"
-author: "Darren Ma"
+title: "Exploratory Analysis for INFO 478"
+author: "Team members: Darren Ma, Toan Vo, Jasmeen Kaur, Jaskaran Johal"
 date: "5/16/2021"
 output: html_document
 ---
@@ -9,11 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+---
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 # Set up
@@ -25,38 +21,101 @@ library(tidyr)
 hearing_data <- read.csv("Paper1_WebData_Final.csv")
 ```
 
+#### Left Ear at 2000 hz analysis
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
-head(hearing_data)
-hearing_data2 = na.omit(hearing_data)
-l500k <- hearing_data$L500k
+hdata <- hearing_data %>% filter(hearing_data$L2k != '999' & hearing_data$L2k != '998' & hearing_data$L2k != '997' & hearing_data$L2k > '0' & hearing_data$R2k != '999' & hearing_data$R2k != '998' & hearing_data$R2k != '997' & hearing_data$R2k > '0')
+hearing_data2 = na.omit(hdata)
+l2k <- hdata$L2k
 
-r500k <- hearing_data$R500k
+r2k <- hdata$R2k
 
-clean_l500k <- na.omit(l500k)
-clean_r500k <- na.omit(r500k)
-mean500 <- mean(x = sort(x = clean_l500k)[-c(1, length(x = clean_l500k))])
-median500 <- median(clean_l500k)
-max500 <- max(clean_l500k)
-min500 <- min(clean_l500k)
-sd500 <- sd(clean_l500k)
+clean_l2k <- na.omit(l2k)
+
+mean2 <- mean(x = sort(x = clean_l2k)[-c(1, length(x = clean_l2k))])
+median2 <- median(clean_l2k)
+max2 <- max(clean_l2k)
+min2 <- min(clean_l2k)
+sd2 <- sd(clean_l2k)
+range2 <- range(clean_l2k)
 ```
-- Mean of Left Ear hearing threshold value for 500 hz frequency is `r mean500`
-- Median of Left Ear hearing threshold value for 500 hz frequency is `r median500`
-- Max of Left Ear hearing threshold value for 500 hz frequency is `r max500`
-- Min of Left Ear hearing threshold value for 500 hz frequency is `r min500`
-- Standard Deviation of Left Ear hearing threshold value for 500 hz frequency is `r sd500`
+- Mean of Left Ear hearing threshold value for 2000 hz frequency is `r mean2`
+- Median of Left Ear hearing threshold value for 2000 hz frequency is `r median2`
+- Max of Left Ear hearing threshold value for 2000 hz frequency is `r max2`
+- Min of Left Ear hearing threshold value for 2000 hz frequency is `r min2`
+- Standard Deviation of Left Ear hearing threshold value for 2000 hz frequency is `r sd2`
+- Range of Left Ear hearing threshold value for 2000 hz frequency is `r range2`
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
-# Graph showing the distribution of Left ear hearing threshold value for 500 Hz frequency Each interval of 5 represents the hearing level in decibals (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 500 hz frequency.  
+# Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibals (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
 
-p <- ggplot(hearing_data2, aes(x=L500k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5))
+p <- ggplot(hearing_data2, aes(x=L2k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5)) +
+  labs(x="Left Ear 2000 hz Frequency")
 p
 ```
 
+Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. 
+
+---
+
+#### Right Ear at 2000 hz analysis
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+clean_r2k <- na.omit(r2k)
+mean2 <- mean(x = sort(x = clean_r2k)[-c(1, length(x = clean_r2k))])
+median2 <- median(clean_r2k)
+max2 <- max(clean_r2k)
+min2 <- min(clean_r2k)
+sd2 <- sd(clean_r2k)
+range2 <- range(clean_r2k)
+```
+
+
+- Mean of Right Ear hearing threshold value for 2000 hz frequency is `r mean2`
+- Median of Right Ear hearing threshold value for 2000 hz frequency is `r median2`
+- Max of Right Ear hearing threshold value for 2000 hz frequency is `r max2`
+- Min of Right Ear hearing threshold value for 2000 hz frequency is `r min2`
+- Standard Deviation of Right Ear hearing threshold value for 2000 hz frequency is `r sd2`
+- Range of Right Ear hearing threshold value for 2000 hz frequency is `r range2`
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
+
+p <- ggplot(hearing_data2, aes(x=R2k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5)) +
+  labs(x="Right Ear 2000 hz Frequency")
+p
+```
+Graph showing the distribution of Right ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. 
+
+To compare both graphs, the left ear has a mean of 15 decibels while the right ear has a mean of 14 decibels. So, similar averages. The standard deviations are very similar as well, both around 11. This means that 68% of the data is within 1 standard deviation or 11 decibels, to the left and right. Then 95% of the data is withing 2 standard deviations. 
+---
+
+### Top 10 Jobs with high Decibel Averages
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 # Find top 10 jobs to show the means, then you can come up with a relationship graph
-industry <- hearing_data %>% group_by(NAICS_descr)
-industry %>% summarise(
-  l500k = mean(L500k)
-)
+industry <- hearing_data2 %>% group_by(NAICS_descr) %>% 
+  summarise(l2k = mean(L2k)) %>% 
+  arrange(desc(l2k)) %>% 
+  head(n = 10L)
+
+p <- ggplot(industry, aes(NAICS_descr, l2k)) + geom_col() + xlab(NULL) + ylab("decibels")
+q <- p + aes(stringr::str_wrap(NAICS_descr, 28), l2k) + xlab(NULL) + ylab('decibels')
+q + coord_flip()
 ```
+
+In the above bar graph, I wanted to see the relationship between job and average amount of decibel levels at said job. This way we can see what the Top 10 "loudest" jobs are. Using the Left Year 2000 hz frequency test, we can see that workers who work in the Pipeline Transportation of Natural Gas have an average of around 35 decibels, which exceeds the the 25 dB level, that means that a worker is said to have developed 'material hearing impairment'. Then 'Ground or Treated Mineral and Earth Manufacturing', 'Deep Sea Freight Transportation', 'Drilling Oil and Gas Wells', and 'Child Day Care Services' all have average dB levels above 25. I think it's surprising that Child Day Care Services is up on the list, it must be having to listen to babies/toddlers cry and scream all day. 
+
+---
+
+### Left Ear 6000 hz frequency vs Right Ear 6000 hz frequency
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+hdata <- hearing_data %>% filter(hearing_data$L6k != '999' & hearing_data$L6k != '998' & hearing_data$L6k != '997' & hearing_data$L6k > '0' & hearing_data$R6k != '999' & hearing_data$R6k != '998' & hearing_data$R6k != '997' & hearing_data$R6k > '0')
+hearing_data2 = na.omit(hdata)
+
+g <- ggplot(hearing_data2, aes(L6k, R6k))
+
+g + geom_count(col="tomato3", show.legend=F) + geom_smooth(method="lm", se=F) +
+  labs(y="Right Ear Frequency",
+       x="Left Ear Frequency")
+```
+
+From this graph, we can inference that the right ear is more susceptible to noise at a frequency of 6000 hz. We can see the line of best fit is more slanted downwards than straight up the middle. If the line of best fit clearly cut in-between both the left and right ear, that would mean both ears are equally susceptible to high frequencies of noise. Since the line of best fit is more slanted down, the right ear, we can see has more points in the upper regions of frequency (90+). 
