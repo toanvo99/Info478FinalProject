@@ -49,7 +49,7 @@ range2 <- range(clean_l2k)
 # Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibals (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
 
 p <- ggplot(hearing_data2, aes(x=L2k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5)) +
-  labs(x="Left Ear 2000 hz Frequency")
+  labs(x="Left Ear 2000 hz Frequency (dB)")
 p
 ```
 
@@ -80,7 +80,7 @@ range2 <- range(clean_r2k)
 # Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
 
 p <- ggplot(hearing_data2, aes(x=R2k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5)) +
-  labs(x="Right Ear 2000 hz Frequency")
+  labs(x="Right Ear 2000 hz Frequency (dB)")
 p
 ```
 Graph showing the distribution of Right ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. 
@@ -114,8 +114,8 @@ hearing_data2 = na.omit(hdata)
 g <- ggplot(hearing_data2, aes(L6k, R6k))
 
 g + geom_count(col="tomato3", show.legend=F) + geom_smooth(method="lm", se=F) +
-  labs(y="Right Ear Frequency",
-       x="Left Ear Frequency")
+  labs(y="Right Ear Frequency (dB)",
+       x="Left Ear Frequency (dB)")
 ```
 
 From this graph, we can inference that the right ear is more susceptible to noise at a frequency of 6000 hz. We can see the line of best fit is more slanted downwards than straight up the middle. If the line of best fit clearly cut in-between both the left and right ear, that would mean both ears are equally susceptible to high frequencies of noise. Since the line of best fit is more slanted down, the right ear, we can see has more points in the upper regions of frequency (90+). 
