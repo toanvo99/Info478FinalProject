@@ -25,6 +25,8 @@ Here is some important information before exploring the graphs set forth below.
 
 - Material hearing impairment is when you see a workers average dB above 25 decibels (dB). 
 
+---
+
 #### Left Ear at 2000 hz analysis
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 hdata <- hearing_data %>% filter(hearing_data$L2k != '999' & hearing_data$L2k != '998' & hearing_data$L2k != '997' & hearing_data$L2k > '0' & hearing_data$R2k != '999' & hearing_data$R2k != '998' & hearing_data$R2k != '997' & hearing_data$R2k > '0')
