@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
+
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 # Set up
 library(dplyr)
@@ -20,6 +21,9 @@ library(tidyr)
 # Load data
 hearing_data <- read.csv("Paper1_WebData_Final.csv")
 ```
+Here is some important information before exploring the graphs set forth below. 
+
+- Material hearing impairment is when you see a workers average dB above 25 decibels (dB). 
 
 #### Left Ear at 2000 hz analysis
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -46,14 +50,14 @@ range2 <- range(clean_l2k)
 - Range of Left Ear hearing threshold value for 2000 hz frequency is `r range2`
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
-# Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibals (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
+# Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency.  
 
 p <- ggplot(hearing_data2, aes(x=L2k)) + geom_histogram(color="black", fill="white", breaks = seq(5, 40, by = 5)) +
   labs(x="Left Ear 2000 hz Frequency (dB)")
 p
 ```
 
-Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. 
+Graph showing the distribution of Left ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better.  Each bucket represents the total number of people who had a hearing level of dB at 2000 hz frequency. For left ear, it is very good that most of our data is in the first 'bucket' of 10 dB or less. This means that at 2000 hz frequency, most workers had not developed material hearing loss. We see approximately 15%-20% of workers develop material hearing loss because of their average being over 25 dB. 
 
 ---
 
@@ -83,9 +87,10 @@ p <- ggplot(hearing_data2, aes(x=R2k)) + geom_histogram(color="black", fill="whi
   labs(x="Right Ear 2000 hz Frequency (dB)")
 p
 ```
-Graph showing the distribution of Right ear hearing threshold value for 2000 Hz frequency Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. When above 25 dB, that means that a worker is said to have developed 'material hearing impairment'. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. 
+Graph showing the distribution of Right ear hearing threshold value for 2000 Hz frequency. Each interval of 5 represents the hearing level in decibels (dB), less meaning it's better. Each bucket represents the total number of people who had a hearing level at 2000 hz frequency. As we can see with the right ear as well, it is very good that most of our data is in the first 'bucket' of 10 dB or less. This means that most workers did not develop material hearing loss. but around 15%-20% (like left ear) did develop material hearing loss because they averaged above 25 decibels. 
 
 To compare both graphs, the left ear has a mean of 15 decibels while the right ear has a mean of 14 decibels. So, similar averages. The standard deviations are very similar as well, both around 11. This means that 68% of the data is within 1 standard deviation or 11 decibels, to the left and right. Then 95% of the data is withing 2 standard deviations. 
+
 ---
 
 ### Top 10 Jobs with high Decibel Averages
@@ -97,8 +102,9 @@ industry <- hearing_data2 %>% group_by(NAICS_descr) %>%
   head(n = 10L)
 
 p <- ggplot(industry, aes(NAICS_descr, l2k)) + geom_col() + xlab(NULL) + ylab("decibels")
-q <- p + aes(stringr::str_wrap(NAICS_descr, 28), l2k) + xlab(NULL) + ylab('decibels')
+q <- p + aes(x = reorder(stringr::str_wrap(NAICS_descr, 28), +l2k)) + xlab(NULL) + ylab('decibels')
 q + coord_flip()
+
 ```
 
 In the above bar graph, I wanted to see the relationship between job and average amount of decibel levels at said job. This way we can see what the Top 10 "loudest" jobs are. Using the Left Year 2000 hz frequency test, we can see that workers who work in the Pipeline Transportation of Natural Gas have an average of around 35 decibels, which exceeds the the 25 dB level, that means that a worker is said to have developed 'material hearing impairment'. Then 'Ground or Treated Mineral and Earth Manufacturing', 'Deep Sea Freight Transportation', 'Drilling Oil and Gas Wells', and 'Child Day Care Services' all have average dB levels above 25. I think it's surprising that Child Day Care Services is up on the list, it must be having to listen to babies/toddlers cry and scream all day. 
