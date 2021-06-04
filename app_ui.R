@@ -11,7 +11,7 @@ library(tidyr)
 # Load data
 hearing <- read.csv("Paper1_WebData_Final.csv")
 
-hearing_cleaned <- hearing %>% select(L500k, L1k, L2k, L3k, L4k, L6k, L8k, R500k, R1k, R2k, R3k, R4k, R6k, R8k) %>% drop_na()
+hearing_cleaned <- hearing %>% select(L500k, L1k, L2k, L3k, L4k, L6k, L8k, R500k, R1k, R2k, R3k, R4k, R6k, R8k, age_group, NAICS_descr) %>% drop_na()
 
 hearing_cleaned_2 <- hearing_cleaned %>% 
   filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
@@ -57,9 +57,20 @@ hearing_cleaned_2 <- hearing_cleaned %>%
 #                                      min = enrollment[1], 
 #                                      max = enrollment[2], 
 #                                      value = enrollment)
+#                                 label = "Left Ear Frequency",
+#                                label = "Right Ear Frequency",
+#                                 label = "Select a Frequency Level",
+selector_xwidget <- selectInput('x', 'Left Ear Frequency', choices = c("L500k", "L1k", "L2k", "L3k", "L4k", "L6k", "L8k"), selected = "L500k")
 
-selector_xwidget <- selectInput('x', 'X', choices = c("L500k", "L1k", "L2k", "L3k", "L4k", "L6k", "L8k"), selected = "L500k")
-selector_ywidget <- selectInput('y', 'Y', choices = c("R500k", "R1k", "R2k", "R3k", "R4k", "R6k", "R8k"), selected = "R500k")
+selector_ywidget <- selectInput('y', 'Right Ear Frequency', choices = c("R500k", "R1k", "R2k", "R3k", "R4k", "R6k", "R8k"), selected = "R500k")
+
+selector_rankingx <- selectInput('x', 'Select a Frequency Level', choices = c("L500k", "L1k", "L2k", "L3k", "L4k", "L6k", "L8k",
+                                                       "R500k", "R1k", "R2k", "R3k", "R4k", "R6k", "R8k"), selected = "L500k")
+selector_rankingy <- selectInput(
+  inputId = "age_group", 
+  label = "Select an age group", 
+  choices = unique(hearing_cleaned_2$age_group), 
+  selected = "1")
 # --------- CREATE PAGES ---------- 
 page_one <- tabPanel(
   "Page 1",                   #title of the page, what will appear as the tab name
@@ -75,10 +86,26 @@ page_one <- tabPanel(
       plotOutput("outplot")
     )))
 
+page_two <- tabPanel(
+  "Page 2",                   #title of the page, what will appear as the tab name
+  sidebarLayout(             
+    sidebarPanel( 
+      # left side of the page 
+      # insert widgets or text here -- their variable name(s), NOT the raw code
+      selector_rankingx,
+      selector_rankingy
+    ),           
+    mainPanel(                # typically where you place your plots + texts
+      # insert chart and/or text here -- the variable name NOT the code
+      plotOutput("ranking")
+    )))
 
 # --------- DEFINING UI: PUTTING PAGES TOGETHER ---------- 
 ui <- navbarPage(
-  "Title",
-  page_one
-  #insert other pages here
+  "Hearing Analysis",
+  tabPanel("Left vs Right ear",
+           page_one),
+                                  #insert other pages here
+  tabPanel("Age comparison",
+  page_two)
 )

@@ -103,10 +103,10 @@ industry <- hearing_data2 %>% group_by(NAICS_descr) %>%
   arrange(desc(l2k)) %>% 
   head(n = 10L)
 
-p <- ggplot(industry, aes(NAICS_descr, l2k)) + geom_col() + xlab(NULL) + ylab("decibels")
+p <- ggplot(industry, aes(NAICS_descr, l2k)) + geom_col()
 q <- p + aes(x = reorder(stringr::str_wrap(NAICS_descr, 28), +l2k)) + xlab(NULL) + ylab('decibels')
 q + coord_flip()
-
+View(hearing_data2)
 ```
 
 In the above bar graph, I wanted to see the relationship between job and average amount of decibel levels at said job. This way we can see what the Top 10 "loudest" jobs are. Using the Left Year 2000 hz frequency test, we can see that workers who work in the Pipeline Transportation of Natural Gas have an average of around 35 decibels, which exceeds the the 25 dB level, that means that a worker is said to have developed 'material hearing impairment'. Then 'Ground or Treated Mineral and Earth Manufacturing', 'Deep Sea Freight Transportation', 'Drilling Oil and Gas Wells', and 'Child Day Care Services' all have average dB levels above 25. I think it's surprising that Child Day Care Services is up on the list, it must be having to listen to babies/toddlers cry and scream all day. 
@@ -126,4 +126,4 @@ g + geom_count(col="tomato3", show.legend=F) + geom_smooth(method="lm", se=F) +
        x="Left Ear Frequency (dB)")
 ```
 
-From this graph, we can inference that the right ear is more susceptible to noise at a frequency of 6000 hz. We can see the line of best fit is more slanted downwards than straight up the middle. If the line of best fit clearly cut in-between both the left and right ear, that would mean both ears are equally susceptible to high frequencies of noise. Since the line of best fit is more slanted down, the right ear, we can see has more points in the upper regions of frequency (90+). 
+From this graph, we can inference that the left ear is more susceptible to noise at a frequency of 6000 hz. We can see the line of best fit is more slanted downwards than straight up the middle. If the line of best fit clearly cut in-between both the left and right ear, that would mean both ears are equally susceptible to high frequencies of noise. Since the line of best fit is more slanted down, the right ear, we can see has more points in the upper regions of frequency (90+). 
