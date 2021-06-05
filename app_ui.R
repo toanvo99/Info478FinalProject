@@ -64,7 +64,8 @@ selector_xwidget <- selectInput('x', 'Left Ear Frequency', choices = c("L500k", 
 
 selector_ywidget <- selectInput('y', 'Right Ear Frequency', choices = c("R500k", "R1k", "R2k", "R3k", "R4k", "R6k", "R8k"), selected = "R500k")
 
-selector_rankingx <- selectInput('x', 'Select a Frequency Level', choices = c("L500k", "L1k", "L2k", "L3k", "L4k", "L6k", "L8k",
+
+selector_rankingx <- selectInput('freq_lvl', 'Select a Frequency Level', choices = c("L500k", "L1k", "L2k", "L3k", "L4k", "L6k", "L8k",
                                                        "R500k", "R1k", "R2k", "R3k", "R4k", "R6k", "R8k"), selected = "L500k")
 selector_rankingy <- selectInput(
   inputId = "age_group", 

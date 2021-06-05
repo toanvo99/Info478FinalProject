@@ -50,11 +50,10 @@ server <- function(input, output) {
   # will updated based on user input 
   # insert code for chart here
   
+  
   output$outplot <- renderPlot({     #outplot is the name of the plot 
     # filters the dataset from the widgets
 
-    
-    
     # create plot
     ggplot(hearing_cleaned_2, aes_string(x = input$x, y = input$y)) +
       geom_count(col="tomato3", show.legend=F) + geom_smooth(method="lm", se=F) +
@@ -64,16 +63,25 @@ server <- function(input, output) {
   })
   
 
-  industry <- data_longer %>% filter(input$age_group) %>% 
-  group_by(NAICS_descr) %>% 
-  summarise(l2k = mean(input$x)) %>% 
-  arrange(desc(l2k)) %>% 
-  head(n = 10L)
-
+  
+#
   output$ranking <- renderPlot({
-    ggplot(industry, aes_string(NAICS_descr, input$x)) + geom_col() +
-    aes_string(x = reorder(stringr::str_wrap(NAICS_descr, 28), + input$x)) + xlab(NULL) + ylab('decibels') +
-    coord_flip()
+    industry <- data_longer %>% filter(age_group == input$age_group) %>%
+      filter(frequency == input$freq_lvl) %>%
+      group_by(NAICS_descr) %>%
+      summarise(average = mean(value)) %>%
+      arrange(desc(average)) %>%
+      head(n = 10L)
+    
+    ggplot(industry,
+           aes(x = reorder(NAICS_descr, average),
+               y = average)) +
+      geom_bar(stat = "identity", fill = "#00abff") +
+      geom_text(aes(x = reorder(NAICS_descr, average), y = average,
+                    label = round(average, digits = 0), hjust = 1)) +
+      coord_flip() +
+      labs(title = "Top 10 Worst Jobs by Industry",
+           y = "Average Decibels")
   })
   
 }
