@@ -80,7 +80,7 @@ server <- function(input, output) {
       geom_text(aes(x = reorder(NAICS_descr, average), y = average,
                     label = round(average, digits = 0), hjust = 1)) +
       coord_flip() +
-      labs(title = "Top 10 Worst Jobs by Industry",
+      labs(title = "Top 10 Worst Jobs by Industry", x = "Jobs",
            y = "Average Decibels")
   })
   
