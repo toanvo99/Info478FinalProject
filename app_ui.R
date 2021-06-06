@@ -94,10 +94,18 @@ page_two <- tabPanel(
       # left side of the page 
       # insert widgets or text here -- their variable name(s), NOT the raw code
       selector_rankingx,
-      selector_rankingy
-    ),           
+      selector_rankingy,
+      p("Age Group:"),
+      p("1 = 18-25 years"),
+      p("2 = 36-35 years"),
+      p("3 = 36-45 years"),
+      p("4 = 46-55 years"),
+      p("5 = 56-65 years")
+    ),
+
     mainPanel(                # typically where you place your plots + texts
       # insert chart and/or text here -- the variable name NOT the code
+      
       plotOutput("ranking")
     )))
 
