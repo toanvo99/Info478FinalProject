@@ -73,6 +73,23 @@ selector_rankingy <- selectInput(
   choices = unique(hearing_cleaned_2$age_group), 
   selected = "1")
 # --------- CREATE PAGES ---------- 
+page_zero <- tabPanel(
+  "Overview",
+  mainPanel(
+    h5("Purpose:"),
+    p("The purpose of our research project is to inform workers in loud industries on what they can do to prevent hearing loss in life and promote hearing loss 
+      prevention initiatives. Hearing is essential for maintaining relationships and connections with friends and family, fully participating 
+      in team and community activities, and experiencing life events. Hearing makes it possible to engage, listen, laugh, and enjoy many of 
+      the things that help shape your quality of life. Hopefully our resource will bring some light into how these different industries impact their workers
+      sense of hearing."),
+    h5("Questions to Answer:"),
+    p("Which ear is typically more susceptible to higher frequencies of noise at the same frequency? ie: compare left and right ear at 500 hertz."),
+    p("Which age group is more susceptible to hearing loss and what industry does that correspond to?"),
+    h5("Directions below! Enjoy!"),
+    p("By clicking through the tabs, you will have a chance to explore and interact with our visualizations to gain insights into how hearing impacts
+      the ear and you will learn about what industries are the worst for their workers. Then on the last tab, all the information you viewed will be summarized.")
+  )
+)
 page_one <- tabPanel(
   "Page 1",                   #title of the page, what will appear as the tab name
   sidebarLayout(             
@@ -80,7 +97,11 @@ page_one <- tabPanel(
       # left side of the page 
       # insert widgets or text here -- their variable name(s), NOT the raw code
       selector_xwidget,
-      selector_ywidget
+      selector_ywidget,
+      p("Frequency Levels:"),
+      p("500K = 500 Hertz"),
+      p("1K = 1000 Hertz"),
+      p("2K = 2000 Hertz and so on...")
     ),           
     mainPanel(                # typically where you place your plots + texts
       # insert chart and/or text here -- the variable name NOT the code
@@ -89,7 +110,7 @@ page_one <- tabPanel(
 
 page_two <- tabPanel(
   "Page 2",                   #title of the page, what will appear as the tab name
-  sidebarLayout(             
+  sidebarLayout( 
     sidebarPanel( 
       # left side of the page 
       # insert widgets or text here -- their variable name(s), NOT the raw code
@@ -105,16 +126,37 @@ page_two <- tabPanel(
 
     mainPanel(                # typically where you place your plots + texts
       # insert chart and/or text here -- the variable name NOT the code
-      
+
       plotOutput("ranking")
     )))
 
+page_three <- tabPanel(
+  "Overview",
+  mainPanel(
+    h3("Conclusions and Analysis:"),
+    h5("Hearing Analysis"),
+    p("If we view the “Hearing Analysis” graph and compare, we can see that it is vital to compare the Left Ear Frequency and Right Ear Frequency at an
+      equal margin (i.e. L500k, R500k;  L1K, R1K). If we look at this comparison of Left vs Right Ear, we can see which ear is more susceptible to noise. 
+      Susceptible in this case means, which ear is more sensitive. As you can see off of this graph, we can see that the Left Ear is more susceptible, at 500k
+      frequency, and this remains consistently through whether we look at 500K to 1K."),
+    h5("Age Comparison Analysis"),
+    p("However, if we view this in an age comparison lens - we can see that Ambulatory Health Care Services is the Worst job by industry, 
+      because hearing loss is by 50 decibels, followed by Building Finish Contractors (40 decibels), Scale and Balance Manufacturing (30 decibels) 
+      for age group 1, by age group 4, the order is as follows for worst hearing lost: Musical Groups (35 decibels), Equipment Manufacturing 
+      (30 decibels), group 5: Rental Leasing (40 decibels), Motor Vehicle Parts (40 decibels), group 2: utilities (50 decibels), paper and products (40). 
+      You can see that the higher the age group the more decibels wise hearing is worsened - particularly in the 2-5 age group.")
+  )
+)
+
 # --------- DEFINING UI: PUTTING PAGES TOGETHER ---------- 
 ui <- navbarPage(
-  "Hearing Analysis",
+  "Hearing Analysis for workers in different Industries",
+  tabPanel("Overview",
+           page_zero),
   tabPanel("Left vs Right ear",
            page_one),
-                                  #insert other pages here
   tabPanel("Age comparison",
-  page_two)
+           page_two),
+  tabPanel("Conclusions",
+           page_three)
 )
