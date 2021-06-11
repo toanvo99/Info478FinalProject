@@ -3,14 +3,22 @@
 
 #install packages
 library(shiny)
-library(dplyr)
+library(conflicted)
 library(tidyr)
-library(plotly)
-
 library(ggplot2)
+library(plotly)
+library(dplyr)
 
 
+last_plot <- plotly::last_plot
+filter <- dplyr::filter
+layout <- plotly::layout
+lag <- dplyr::lag
+intersect <- dplyr::intersect
+setdiff <- dplyr::setdiff
+setequal <- dplyr::setequal
 
+union <- dplyr::union
 
 
 # read dataset 
@@ -20,7 +28,7 @@ hearing <- read.csv("Paper1_WebData_Final.csv")
 hearing_cleaned <- hearing %>% select(L500k, L1k, L2k, L3k, L4k, L6k, L8k, R500k, R1k, R2k, R3k, R4k, R6k, R8k, age_group, NAICS_descr) %>% drop_na()
 
 hearing_cleaned_2 <- hearing_cleaned %>% 
-  dplyr::filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
+  filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
            hearing_cleaned$L1k %in% (0:996) & hearing_cleaned$L1k > '0' &
            hearing_cleaned$L2k %in% (0:996) & hearing_cleaned$L2k > '0' &
            hearing_cleaned$L4k %in% (0:996) & hearing_cleaned$L4k > '0' & 
@@ -86,33 +94,11 @@ page_zero <- tabPanel(
     p("The purpose of our research project is to inform workers in loud industries on what they can do to prevent hearing loss in life and promote hearing loss 
       prevention initiatives. Hearing is essential for maintaining relationships and connections with friends and family, fully participating 
       in team and community activities, and experiencing life events. Hearing makes it possible to engage, listen, laugh, and enjoy many of 
-      the things that help shape your quality of life. Our project focuses on hearing loss in certain industries, such as child care, manufacturing 
-      and transportation. Hopefully our resource will bring some light into how these different industries impact their workers
+      the things that help shape your quality of life. Hopefully our resource will bring some light into how these different industries impact their workers
       sense of hearing."),
-    h5("Data:"),
-    p("The various data sets used in this were all retrieved from Centers for Disease Control and Prevention (CDC). The data set from CDC: 
-    Occupational Hearing Loss (OHL) Worker Surveillance Data’s purpose of this study was to estimate the incidence and prevalence of hearing 
-    loss for noise-exposed U.S. workers by industry sector and 5-year time period, covering 30 years. Audiograms for 1.8 million workers from 
-    1981-2010 were examined. Incidence and prevalence were estimated by industry sector and time period. The adjusted risk of incident hearing 
-    loss within each time period and industry sector as compared with a reference time period was also estimated."),
-    p("Here are some statistics for noise exposure and hearing protection:"),
-    tags$li("About 51% of all workers in Construction have been exposed to hazardous noise."),
-    tags$li("31% of noise-exposed Construction workers report not wearing hearing protection."),
-    p(""),
-    p("Construction workers also experience hearing loss and tinnitus:"),
-    tags$li("Approximately 14% of all Construction workers have hearing difficulty."),
-    tags$li("About 7% of all Construction workers have tinnitus."),
-    tags$li("About 25% of noise-exposed tested Construction workers have a material hearing impairment. Hearing impairment is hearing loss that impacts day-to-day activities."),
-    tags$li("16% of noise-exposed tested Construction workers have hearing impairment in both ears"),
     h5("Questions to Answer:"),
     p("Which ear is typically more susceptible to higher frequencies of noise at the same frequency? ie: compare left and right ear at 500 hertz."),
     p("Which age group is more susceptible to hearing loss and what industry does that correspond to?"),
-    h5("Audience:"),
-    p("Our app includes data that is relevant to those who want to know how to prevent hearing loss while working in the field.
-      The adjusted risk for incident hearing loss decreased over time when all industry sectors were combined. However, the risk
-      remained high for workers in Healthcare and Social Assistance, and the prevalence was consistently high for Mining and
-      Construction workers. While progress has been made in reducing the risk of incident hearing loss within most industry sectors,
-      additional efforts are needed within Mining, Construction and Healthcare and Social Assistance."),
     h5("Directions below! Enjoy!"),
     p("By clicking through the tabs, you will have a chance to explore and interact with our visualizations to gain insights into how hearing impacts
       the ear and you will learn about what industries are the worst for their workers. Then on the last tab, all the information you viewed will be summarized.")

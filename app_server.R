@@ -2,6 +2,22 @@
 # May 12, 2021
 
 # load packages 
+library(shiny)
+library(conflicted)
+library(tidyr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+
+last_plot <- plotly::last_plot
+filter <- dplyr::filter
+layout <- plotly::layout
+lag <- dplyr::lag
+intersect <- dplyr::intersect
+setdiff <- dplyr::setdiff
+setequal <- dplyr::setequal 
+union <- dplyr::union
 
 # Load data
 hearing <- read.csv("Paper1_WebData_Final.csv")
@@ -20,7 +36,7 @@ hearing_cleaned <- hearing %>%
   drop_na()
 
 hearing_cleaned_2 <- hearing_cleaned %>% 
-  dplyr::filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
+  filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
            hearing_cleaned$L1k %in% (0:996) & hearing_cleaned$L1k > '0' &
            hearing_cleaned$L2k %in% (0:996) & hearing_cleaned$L2k > '0' &
            hearing_cleaned$L4k %in% (0:996) & hearing_cleaned$L4k > '0' & 
@@ -61,8 +77,8 @@ server <- function(input, output) {
   
 #
   output$ranking <- renderPlot({
-    industry <- data_longer %>% dplyr::filter(age_group == input$age_group) %>%
-      dplyr::filter(frequency == input$freq_lvl) %>%
+    industry <- data_longer %>% filter(age_group == input$age_group) %>%
+      filter(frequency == input$freq_lvl) %>%
       group_by(NAICS_descr) %>%
       summarise(average = mean(value)) %>%
       arrange(desc(average)) %>%

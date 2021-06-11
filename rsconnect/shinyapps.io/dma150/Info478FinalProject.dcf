@@ -5,9 +5,9 @@ account: dma150
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4255407
-bundleId: 4703900
+bundleId: 4704326
 url: https://dma150.shinyapps.io/Info478FinalProject/
-when: 1623387459.68375
-lastSyncTime: 1623387459.68377
+when: 1623398553.44669
+lastSyncTime: 1623398553.44669
 asMultiple: FALSE
 asStatic: FALSE
