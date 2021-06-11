@@ -3,9 +3,15 @@
 
 #install packages
 library(shiny)
-library(ggplot2)
-library(plotly)
+library(dplyr)
 library(tidyr)
+library(plotly)
+
+library(ggplot2)
+
+
+
+
 
 # read dataset 
 # Load data
@@ -14,7 +20,7 @@ hearing <- read.csv("Paper1_WebData_Final.csv")
 hearing_cleaned <- hearing %>% select(L500k, L1k, L2k, L3k, L4k, L6k, L8k, R500k, R1k, R2k, R3k, R4k, R6k, R8k, age_group, NAICS_descr) %>% drop_na()
 
 hearing_cleaned_2 <- hearing_cleaned %>% 
-  filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
+  dplyr::filter(hearing_cleaned$L500k %in% (0:996) & hearing_cleaned$L500k > '0' &
            hearing_cleaned$L1k %in% (0:996) & hearing_cleaned$L1k > '0' &
            hearing_cleaned$L2k %in% (0:996) & hearing_cleaned$L2k > '0' &
            hearing_cleaned$L4k %in% (0:996) & hearing_cleaned$L4k > '0' & 
